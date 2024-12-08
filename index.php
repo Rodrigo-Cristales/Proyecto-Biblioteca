@@ -11,41 +11,9 @@
                 
                 require_once('./libro.php');
                 require_once ('./acciones.php');
-
-                
+   
                 $acciones = new acciones();
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    if (isset($libroAEditar)) {
-                        // Actualizar el libro existente
-                        $libroNuevo = new libro($libroAEditar->getId(), $_POST['libro'], $_POST['autor'], $_POST['categoria'], 'Disponible');
-                        $acciones->EditarLibro($libroAEditar->getId(), $libroNuevo);
-                    } else {
-                        // Agregar un nuevo libro
-                        $id = uniqid();
-                        $titulo = $_POST['libro'];
-                        $autor = $_POST['autor'];
-                        $categoria = $_POST['categoria'];
-                        $estado = 'Disponible';
-                        $agregarLibro = new libro($id, $titulo, $autor, $categoria, $estado);
-                        $acciones->RegistrarLibro($agregarLibro);
-                    }
-                    // Refrescar la lista de libros
-                    $libros = $acciones->obtenerDatos();
-                }
-                
-                
-                if (isset($libroAEditar)) {
-                    // Si estamos editando, prellenamos los campos con los valores actuales
-                    $titulo = $libroAEditar->getTitulo();
-                    $autor = $libroAEditar->getAutor();
-                    $categoria = $libroAEditar->getCategoria();
-                } else {
-                    // Si no estamos editando, dejamos los valores vacíos
-                    $titulo = '';
-                    $autor = '';
-                    $categoria = '';
-                }
-                
+                        
                 if (isset($_GET['eliminar'])) {
                     $idEliminar = $_GET['eliminar'];
                     $acciones->EliminarLibro($idEliminar); 
@@ -59,8 +27,7 @@
                     $estado = 'Disponible';
                     $agregarLibro = new libro($id, $titulo, $autor, $categoria, $estado);
                     $acciones->RegistrarLibro($agregarLibro);
-                
-                    // Refrescar la tabla después de agregar un nuevo libro
+            
                     $libros = $acciones->obtenerDatos();
                 }
                 else {
